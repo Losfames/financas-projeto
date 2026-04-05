@@ -1,0 +1,10 @@
+<h2>Cadastro</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <input name="nome" placeholder="Nome"><br>
+    <input name="email" placeholder="Email"><br>
+    <input name="senha" type="password" placeholder="Senha"><br>
+    <input name="cpf" placeholder="CPF"><br>
+    <button type="submit">Cadastrar</button>
+</form>
