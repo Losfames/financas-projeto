@@ -1,8 +1,130 @@
-<h2>Login</h2>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'usuarios/style.css' %}">
+</head>
 
-<form method="POST">
-    {% csrf_token %}
-    <input name="email" placeholder="Email"><br>
-    <input name="senha" type="password" placeholder="Senha"><br>
-    <button type="submit">Entrar</button>
-</form>
+<body class="login">
+  <div class="layout">
+
+    <div class="lado-esquerdo">
+      <div class="quadrado">
+        
+        <div class="titulo-container">
+          <h1 class="nome">+Controle</h1>
+          <h1 class="nome2">-Tempo</h1>
+        </div>
+        
+        <form method="POST">
+          {% csrf_token %}
+            <p class="user" style="color: #285E9E;">Usuário</p>
+
+            <input class="lemail" name="email" placeholder="Digite seu email...">
+
+            <p class="user" style="color: #285E9E;">Senha</p>
+            <div class="campo-senha">
+            <input class="lemail" name="senha" id="senha" type="password" placeholder="Digite sua senha...">
+            <button type="button" class="toggle-password" onclick="toggleSenha()">
+                <span id="icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                       <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </span>
+
+            </button>
+
+
+            <script>
+            function toggleSenha() {
+                const input = document.getElementById("senha");
+                const btn = document.getElementById("icon");
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.innerHTML = `
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M3 3l18 18"/>
+                            <path d="M10.58 10.58a2 2 0 0 0 2.83 2.83"/>
+                            <path d="M9.88 5.08A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-3.17 4.66"/>
+                            <path d="M6.61 6.61A21.8 21.8 0 0 0 1 12s4 8 11 8a10.94 10.94 0 0 0 5.39-1.39"/>
+                        </svg>
+                    `;
+                } else {
+                    input.type = "password";
+                    icon.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    `;
+              }
+            }
+            </script>
+            </div>
+
+            <button class="entrar" type="submit">Entrar</button>
+
+            <p class="registro">
+            Não tem conta?
+            <a href="{% url 'cadastro' %}">Criar agora</a>
+            </p>
+        </form>
+
+      </div>
+    </div>
+    
+    <div class="lado-direito">
+        
+        <p class="txtimg">
+            Tenha controle total sobre suas finanças
+        </p>
+        <p class="txtimg2">
+            onde e quando quiser.
+        </p>
+    </div>
+  </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Pega o formulário da página
+        const formLogin = document.querySelector("form");
+
+        if(formLogin) {
+            formLogin.addEventListener("submit", function(event) {
+                // Pegando os campos
+                const emailInput = document.querySelector('input[name="email"]');
+                const senhaInput = document.getElementById("senha");
+                
+                const email = emailInput ? emailInput.value.trim() : "";
+                const senha = senhaInput ? senhaInput.value.trim() : "";
+                const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                let mensagensErro = [];
+
+                // Validando e-mail
+                if (!email) {
+                    mensagensErro.push("- O campo de e-mail não pode estar vazio.");
+                } else if (!regexEmail.test(email)) {
+                    mensagensErro.push("- Por favor, digite um formato de e-mail válido com @ e .com.");
+                }
+
+                // Validando senha
+                if (!senha) {
+                    mensagensErro.push("- O campo de senha não pode estar vazio.");
+                } else if (senha.length < 6) {
+                    mensagensErro.push("- A senha deve ter pelo menos 6 caracteres.");
+                }
+
+                // Se tiver erro, impede de ir pro Back-End e avisa o usuário
+                if (mensagensErro.length > 0) {
+                    event.preventDefault(); 
+                    alert("Atenção:\n\n" + mensagensErro.join("\n")); 
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

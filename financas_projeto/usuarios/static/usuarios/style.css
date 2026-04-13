@@ -1,0 +1,159 @@
+.login {
+    margin: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+.lado-direito {
+    flex: 1;
+    text-align: center;
+    background: #ffffff;
+    background: url('/static/usuarios/simbol.png') no-repeat center;
+    background-position: center 70%;
+    background-size: 500px;
+}
+
+.txtimg {
+    font-size: 24px;
+    color: #333;
+    margin-top: 300px;
+    margin-bottom: 0px;
+}
+
+.txtimg2 {
+    font-size: 24px;
+    color: #68A535;
+    margin-top: 0px;
+}
+
+.lado-esquerdo {
+    flex: 1;
+    background: #CECECE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quadrado {
+    background: #F2F0EF;
+    padding: 40px;
+    border-radius: 8px;
+    max-width: 320px;
+    width: 100%;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+}
+
+.titulo-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.nome {
+    margin: 0;
+    color: #68A535;
+    margin-bottom: -5px;
+}
+
+.nome2 {
+    margin: 0;
+    color: #285E9E;
+    margin-bottom: 15px;
+}
+
+.user {
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-left: 1px;
+    font-weight: 560;
+
+}
+
+.lemail {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    color: #000000;
+    border: 0px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+.lemail::placeholder {
+  color: rgba(0, 0, 0, 0.35); /* 40% de opacidade */
+}
+
+.entrar {
+    width: 100%;
+    padding: 10px;
+    background: #68A535;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+button:hover {
+    background: #5ba51e;
+}
+
+a {
+    color: #68A535;       /* muda a cor */
+    text-decoration: none; /* remove sublinhado */
+}
+
+.registro {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-link {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.campo-senha {
+    position: relative;.campo-senha input {
+    padding-right: 50px; /* mais espaço pro ícone */
+}
+}
+
+.campo-senha input {
+    width: 100%;
+    padding: 12px;
+    padding-right: 45px;
+}
+
+.campo-senha button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.campo-senha svg {
+    width: 18px;
+    height: 18px;
+    display: block;
+}
