@@ -1,3 +1,8 @@
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 import pymysql
 pymysql.install_as_MySQLdb()
 
@@ -68,11 +73,16 @@ WSGI_APPLICATION = 'financas_projeto.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'meu_banco',
-        'USER': 'root',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'NAME': 'defaultdb',
+        'USER': 'avnadmin',
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': 'mysql-3e9faf76-felipep21silva-cadd.l.aivencloud.com',
+        'PORT': '21254',
+        'OPTIONS': {
+            'ssl': {
+                'ca': 'ca.pem'
+            }
+        }
     }
 }
 
