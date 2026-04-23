@@ -8,4 +8,19 @@ class Usuario(models.Model):
     cpf = models.CharField(max_length=11)
 
     class Meta:
-        db_table = 'Usuario'
+        db_table = 'usuarios'
+
+        
+
+class Projeto(models.Model):
+    nome = models.CharField(max_length=100)
+    descricao = models.CharField(max_length=300)
+    data_inicio = models.DateField()
+    data_fim = models.DateField()
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'projetos'
+
+    def __str__(self):
+        return self.nome

@@ -1,0 +1,28 @@
+<h1>Editar Projeto</h1>
+
+{% if erro %}
+    <p style="color: red;">{{ erro }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="nome" value="{{ projeto.nome }}"><br>
+    <input type="text" name="descricao" value="{{ projeto.descricao }}"><br>
+    <input type="date" name="data_inicio" id="data_inicio"
+       value="{{ projeto.data_inicio|date:'Y-m-d' }}" 
+       min="1900-01-01" max="2100-12-31">
+
+    <input type="date" name="data_fim" id="data_fim"
+       value="{{ projeto.data_fim|date:'Y-m-d' }}"
+       min="1900-01-01" max="2100-12-31">
+
+    <button type="submit">Salvar</button>
+</form>
+
+<script>
+    document.getElementById('data_inicio').addEventListener('change', function() {
+    document.getElementById('data_fim').min = this.value;
+});
+
+
+</script>

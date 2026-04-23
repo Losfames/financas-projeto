@@ -1,0 +1,17 @@
+<h1>Meus Projetos</h1>
+
+<a href="/criar-projeto/">Criar novo projeto</a>
+
+<ul>
+    {% for projeto in projetos %}
+        <li style="display: flex; justify-content: space-between; align-items: center; width: 400px;">
+            <span>
+                {{ projeto.nome }} - {{ projeto.descricao }}
+            </span>
+
+            <a href="{% url 'editar_projeto' projeto.id %}">✏️ Editar</a>
+        </li>
+    {% empty %}
+        <li>Nenhum projeto encontrado</li>
+    {% endfor %}
+</ul>
