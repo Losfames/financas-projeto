@@ -24,3 +24,36 @@ class Projeto(models.Model):
 
     def __str__(self):
         return self.nome
+    
+
+
+class Categoria(models.Model):
+    nome = models.CharField(max_length=100)
+    tipo = models.CharField(max_length=20)
+
+    class Meta:
+        db_table = 'categorias'
+
+
+
+class TipoDespesa(models.Model):
+    nome = models.CharField(max_length=100)
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'tipos_despesa'
+
+
+
+class Despesa(models.Model):
+    descricao = models.CharField(max_length=200)
+    valor_orcado = models.FloatField()
+    valor_realizado = models.FloatField()
+
+    data = models.DateField()
+
+    tipo = models.ForeignKey('TipoDespesa', on_delete=models.CASCADE)
+    projeto = models.ForeignKey('Projeto', on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'despesas'

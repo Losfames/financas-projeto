@@ -4,14 +4,29 @@
 
 <ul>
     {% for projeto in projetos %}
-        <li style="display: flex; justify-content: space-between; align-items: center; width: 400px;">
-            <span>
-                {{ projeto.nome }} - {{ projeto.descricao }}
-            </span>
 
-            <a href="{% url 'editar_projeto' projeto.id %}">✏️ Editar</a>
-        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; width: 500px;">
+    <span>
+        {{ projeto.nome }} - {{ projeto.descricao }}
+    </span>
+
+    <div>
+        <a href="{% url 'editar_projeto' projeto.id %}">
+    ✏️ Editar</a>
+        |
+        <a href="{% url 'deletar_projeto' projeto.id %}"
+   onclick="return confirm('Tem certeza que deseja deletar este projeto?')">
+   🗑️ Deletar
+        |
+        <a href="{% url 'ver_projeto' projeto.id %}">
+    👁️ Ver Projeto
+</a>
+</a>
+</a>
+    </div>
+</li>
+
     {% empty %}
-        <li>Nenhum projeto encontrado</li>
+        <li>Nenhum projeto criado ainda!</li>
     {% endfor %}
 </ul>
