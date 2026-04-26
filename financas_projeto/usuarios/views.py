@@ -194,7 +194,9 @@ def criar_despesa(request, projeto_id):
     if not projeto:
         return redirect('dashboard')
 
-    tipos = TipoDespesa.objects.all()
+    tipos = TipoDespesa.objects.filter(
+    despesa__projeto__usuario_id=user_id
+    ).distinct()
 
     if request.method == 'POST':
         descricao = request.POST.get('descricao')
@@ -205,8 +207,38 @@ def criar_despesa(request, projeto_id):
         tipo_nome = request.POST.get('tipo_nome')
         tipo_id = request.POST.get('tipo')
 
+        if not descricao:
+            descricao = '-'
+
+        if not valor_realizado or not data:
+            return render(request, 'criar_despesa.html', {
+                'erro': 'Preencha valor e data',
+                'tipos': tipos,
+                'projeto': projeto
+            })
+
+        if not tipo_nome and not tipo_id:
+            return render(request, 'criar_despesa.html', {
+                'erro': 'Selecione ou crie um tipo',
+                'tipos': tipos,
+                'projeto': projeto
+            })
+
+        try:
+            valor_realizado = float(valor_realizado)
+            valor_orcado = float(valor_orcado) if valor_orcado else 0
+        except:
+            return render(request, 'criar_despesa.html', {
+                'erro': 'Valor inválido',
+                'tipos': tipos,
+                'projeto': projeto
+            })
+
         if tipo_nome:
-            tipo, _ = TipoDespesa.objects.get_or_create(nome=tipo_nome)
+            tipo, _ = TipoDespesa.objects.get_or_create(
+                nome=tipo_nome,
+                defaults={'categoria_id': 1}
+            )
         else:
             tipo = TipoDespesa.objects.filter(id=tipo_id).first()
 
