@@ -9,6 +9,13 @@ from django.db.models import Sum
 
 categorias = Categoria.objects.all()
 
+
+def home(request):
+    if request.session.get('usuario_id'):
+        return redirect('dashboard')  # já logado
+    else:
+        return redirect('login')  # não logado
+
 # CADASTRO
 def cadastro(request):
     if request.method == 'POST':
@@ -160,12 +167,12 @@ def ver_projeto(request, projeto_id):
     categorias = []
     valores = []
 
-    dados = despesas.values('tipo__categoria__nome').annotate(
+    dados = despesas.values('tipo__nome').annotate(
         total=Sum('valor_realizado')
     )
 
     for item in dados:
-        categorias.append(item['tipo__categoria__nome'])
+        categorias.append(item['tipo__nome'])
         valores.append(float(item['total']))
 
     return render(request, 'ver_projeto.html', {
@@ -185,10 +192,9 @@ def criar_despesa(request, projeto_id):
     projeto = Projeto.objects.filter(id=projeto_id, usuario_id=user_id).first()
 
     if not projeto:
-        return redirect('ver_projeto', projeto_id=projeto.id)
+        return redirect('dashboard')
 
     tipos = TipoDespesa.objects.all()
-    categorias = Categoria.objects.all()
 
     if request.method == 'POST':
         descricao = request.POST.get('descricao')
@@ -197,31 +203,20 @@ def criar_despesa(request, projeto_id):
         data = request.POST.get('data')
 
         tipo_nome = request.POST.get('tipo_nome')
+        tipo_id = request.POST.get('tipo')
 
         if tipo_nome:
-            categoria_id = request.POST.get('categoria')
-
-            if categoria_id:
-                categoria = Categoria.objects.get(id=categoria_id)
-            else:
-                categoria = Categoria.objects.first()  # fallback automático
-
-            tipo, created = TipoDespesa.objects.get_or_create(
-                nome=tipo_nome,
-                defaults={'categoria': categoria}
-            )
+            tipo, _ = TipoDespesa.objects.get_or_create(nome=tipo_nome)
         else:
-            tipo_id = request.POST.get('tipo')
             tipo = TipoDespesa.objects.filter(id=tipo_id).first()
 
         if not tipo:
             return render(request, 'criar_despesa.html', {
                 'erro': 'Tipo inválido',
                 'tipos': tipos,
-                'categorias': categorias,
                 'projeto': projeto
             })
-        
+
         Despesa.objects.create(
             descricao=descricao,
             valor_orcado=valor_orcado,
@@ -235,8 +230,7 @@ def criar_despesa(request, projeto_id):
 
     return render(request, 'criar_despesa.html', {
         'projeto': projeto,
-        'tipos': tipos,
-        'categorias': categorias
+        'tipos': tipos
     })
 
 

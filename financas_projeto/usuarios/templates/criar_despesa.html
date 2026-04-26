@@ -15,14 +15,6 @@
 
     <input type="date" name="data"><br>
 
-    <select name="categoria">
-        {% for categoria in categorias %}
-            <option value="{{ categoria.id }}">
-                {{ categoria.nome }}
-            </option>
-        {% endfor %}
-    </select><br>
-
     <select name="tipo">
         <option value="">Selecione um tipo</option>
         {% for tipo in tipos %}

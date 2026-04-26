@@ -16,37 +16,47 @@
         <a href="{% url 'criar_despesa' projeto.id %}">
             ➕ Nova Despesa
         </a>
-
-        <table border="1">
-            <tr>
-                <th>Descrição</th>
-                <th>Valor</th>
-                <th>Ações</th>
-            </tr>
-
+    
+  <div>
     {% for despesa in despesas %}
-            <tr>
-                <td>{{ despesa.descricao }}</td>
-                <td>R$ {{ despesa.valor_realizado }}</td>
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 5px;
+            color: #ffffff;
+            background-color: #6aa84f;
+            border-radius: 8px;         
+        ">
 
-            <td>
+            <div>
+                <strong>{{ despesa.descricao }}</strong><br>
+                R$ {{ despesa.valor_realizado }}<br>
+                {{ despesa.data|date:"d/m/Y" }}
+            </div>
+
+            <div style="display: flex; align-items: center;">
                 <a href="{% url 'deletar_despesa' despesa.id %}"
-                onclick="return confirm('Tem certeza que deseja deletar?')">
-                ❌ Deletar
+                   onclick="return confirm('Tem certeza que deseja deletar?')"
+                   style="color: red;">
+                   ❌
                 </a>
-            </td>
-            </tr>
+            </div>
+
+        </div>
     {% endfor %}
+</div>
 </table>
     </div>
 
-    <div style="width: 50%;">
+    <div style="width: 30%;">
         <h2>Resumo</h2>
 
         <p><strong>Total Orçado:</strong> R$ {{ total_orcado }}</p>
         <p><strong>Total Realizado:</strong> R$ {{ total_realizado }}</p>
 
-        <canvas id="graficoPizza" width="400" height="400"></canvas>
+        <canvas id="graficoPizza" width="200" height="200"></canvas>
     </div>
 
 </div>
