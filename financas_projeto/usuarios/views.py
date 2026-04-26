@@ -19,11 +19,27 @@ def home(request):
 # CADASTRO
 def cadastro(request):
     if request.method == 'POST':
+        nome = request.POST.get('nome', '')
+        email = request.POST.get('email', '')
+        senha = request.POST.get('senha', '')
+        cpf = ''.join(filter(str.isdigit, request.POST.get('cpf', '')))
+
+        if len(cpf) != 11:
+            return render(request, 'cadastro.html', {
+                'erro': 'Digite um CPF válido com exatamente 11 números.',
+                'dados': {
+                    'nome': nome,
+                    'email': email,
+                    'senha': senha,
+                    'cpf': cpf
+                }
+            })
+
         Usuario.objects.create(
-            nome=request.POST.get('nome'),
-            email=request.POST.get('email'),
-            senha=request.POST.get('senha'),
-            cpf=request.POST.get('cpf')
+            nome=nome,
+            email=email,
+            senha=senha,
+            cpf=cpf
         )
         return redirect('login')
 
@@ -58,6 +74,11 @@ def dashboard(request):
     projetos = Projeto.objects.filter(usuario_id=user_id)
 
     return render(request, 'dashboard.html', {'projetos': projetos})
+
+
+def logout_view(request):
+    request.session.flush()
+    return redirect('login')
 
 
 
@@ -225,6 +246,22 @@ def criar_despesa(request, projeto_id):
             })
 
         try:
+            data_despesa = datetime.strptime(data, '%Y-%m-%d').date()
+        except:
+            return render(request, 'criar_despesa.html', {
+                'erro': 'Data inválida',
+                'tipos': tipos,
+                'projeto': projeto
+            })
+
+        if data_despesa < projeto.data_inicio or data_despesa > projeto.data_fim:
+            return render(request, 'criar_despesa.html', {
+                'erro': 'A data da despesa deve estar dentro do prazo do projeto',
+                'tipos': tipos,
+                'projeto': projeto
+            })
+
+        try:
             valor_realizado = float(valor_realizado)
             valor_orcado = float(valor_orcado) if valor_orcado else 0
         except:
@@ -253,7 +290,7 @@ def criar_despesa(request, projeto_id):
             descricao=descricao,
             valor_orcado=valor_orcado,
             valor_realizado=valor_realizado,
-            data=data,
+            data=data_despesa,
             tipo=tipo,
             projeto=projeto
         )

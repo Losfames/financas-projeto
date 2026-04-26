@@ -87,6 +87,7 @@
         </p>
     </div>
   </div>
+<script src="{% static 'usuarios/site-modal.js' %}"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Pega o formulário da página
@@ -120,7 +121,7 @@
                 // Se tiver erro, impede de ir pro Back-End e avisa o usuário
                 if (mensagensErro.length > 0) {
                     event.preventDefault(); 
-                    alert("Atenção:\n\n" + mensagensErro.join("\n")); 
+                    siteAlert(mensagensErro.join("\n"), "Atenção"); 
                 }
             });
         }

@@ -1,32 +1,102 @@
-<h1>Meus Projetos</h1>
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Projetos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-[#CECECE] text-slate-900">
+    <header class="sticky top-0 z-50 border-b border-black/10 bg-[#F2F0EF]/95 shadow-sm backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+            <a href="{% url 'dashboard' %}" class="text-2xl font-bold leading-none">
+                <span class="text-[#68A535]">+Controle</span>
+                <span class="text-[#285E9E]">-Tempo</span>
+            </a>
 
-<a href="/criar-projeto/">Criar novo projeto</a>
+            <a
+                href="{% url 'logout' %}"
+                class="rounded-md border border-[#285E9E] px-4 py-2 text-sm font-semibold text-[#285E9E] transition hover:bg-[#285E9E] hover:text-white"
+            >
+                Sair da conta
+            </a>
+        </div>
+    </header>
 
-<ul>
-    {% for projeto in projetos %}
+    <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <section class="mb-8 rounded-lg bg-[#F2F0EF] p-6 shadow-md">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                    <p class="text-sm font-semibold uppercase tracking-wide text-[#285E9E]">Dashboard</p>
+                    <h1 class="mt-1 text-3xl font-bold text-slate-900">Meus Projetos</h1>
+                    <p class="mt-2 max-w-2xl text-sm text-slate-600">
+                        Organize seus projetos financeiros e acompanhe as despesas de cada um.
+                    </p>
+                </div>
 
-        <li style="display: flex; justify-content: space-between; align-items: center; width: 500px;">
-    <span>
-        {{ projeto.nome }} - {{ projeto.descricao }}
-    </span>
+                <a
+                    href="/criar-projeto/"
+                    class="inline-flex items-center justify-center rounded-md bg-[#68A535] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5ba51e]"
+                >
+                    Criar novo projeto
+                </a>
+            </div>
+        </section>
 
-    <div>
-        <a href="{% url 'editar_projeto' projeto.id %}">
-    ✏️ Editar</a>
-        |
-        <a href="{% url 'deletar_projeto' projeto.id %}"
-   onclick="return confirm('Tem certeza que deseja deletar este projeto?')">
-   🗑️ Deletar
-        |
-        <a href="{% url 'ver_projeto' projeto.id %}">
-    👁️ Ver Projeto
-</a>
-</a>
-</a>
-    </div>
-</li>
+        <section class="rounded-lg bg-white shadow-md">
+            <div class="border-b border-slate-200 px-5 py-4">
+                <h2 class="text-lg font-bold text-[#285E9E]">Lista de projetos</h2>
+            </div>
 
-    {% empty %}
-        <li>Nenhum projeto criado ainda!</li>
-    {% endfor %}
-</ul>
+            <ul class="divide-y divide-slate-200">
+                {% for projeto in projetos %}
+                    <li class="flex flex-col gap-4 px-5 py-5 transition hover:bg-slate-50 sm:flex-row sm:items-center sm:justify-between">
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900">{{ projeto.nome }}</h3>
+                            <p class="mt-1 text-sm text-slate-600">{{ projeto.descricao }}</p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-2">
+                            <a
+                                href="{% url 'ver_projeto' projeto.id %}"
+                                class="rounded-md bg-[#285E9E] px-3 py-2 text-sm font-semibold text-white transition hover:bg-[#1f4d83]"
+                            >
+                                Ver Projeto
+                            </a>
+
+                            <a
+                                href="{% url 'editar_projeto' projeto.id %}"
+                                class="rounded-md border border-[#68A535] px-3 py-2 text-sm font-semibold text-[#68A535] transition hover:bg-[#68A535] hover:text-white"
+                            >
+                                Editar
+                            </a>
+
+                            <a
+                                href="{% url 'deletar_projeto' projeto.id %}"
+                                data-confirm-title="Deletar projeto"
+                                data-confirm-message="Tem certeza que deseja deletar este projeto?"
+                                class="rounded-md border border-red-300 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50"
+                            >
+                                Deletar
+                            </a>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="px-5 py-12 text-center">
+                        <h3 class="text-lg font-bold text-slate-900">Nenhum projeto criado ainda!</h3>
+                        <p class="mt-2 text-sm text-slate-600">Crie seu primeiro projeto para começar a acompanhar suas finanças.</p>
+                        <a
+                            href="/criar-projeto/"
+                            class="mt-5 inline-flex rounded-md bg-[#68A535] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#5ba51e]"
+                        >
+                            Criar novo projeto
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+    <script src="{% static 'usuarios/site-modal.js' %}"></script>
+</body>
+</html>

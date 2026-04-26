@@ -1,21 +1,118 @@
-<h1>Criar Projeto</h1>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Projeto | +Controle -Tempo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-[#CECECE] text-slate-900">
+    <header class="sticky top-0 z-50 border-b border-black/10 bg-[#F2F0EF]/95 shadow-sm backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+            <a href="{% url 'dashboard' %}" class="text-2xl font-bold leading-none">
+                <span class="text-[#68A535]">+Controle</span>
+                <span class="text-[#285E9E]">-Tempo</span>
+            </a>
 
-{% if erro %}
-    <p style="color: red;">{{ erro }}</p>
-{% endif %}
+            <a
+                href="{% url 'dashboard' %}"
+                aria-label="Home"
+                title="Home"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#285E9E] text-[#285E9E] transition hover:bg-[#285E9E] hover:text-white"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 10.5 12 3l9 7.5"></path>
+                    <path d="M5 10v10h14V10"></path>
+                    <path d="M9 20v-6h6v6"></path>
+                </svg>
+            </a>
+        </div>
+    </header>
 
-<form method="POST">
-    {% csrf_token %}
+    <main class="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+        <section class="mb-8 rounded-lg bg-[#F2F0EF] p-6 shadow-md">
+            <p class="text-sm font-semibold uppercase tracking-wide text-[#285E9E]">Novo projeto</p>
+            <h1 class="mt-1 text-3xl font-bold text-slate-900">Criar Projeto</h1>
+            <p class="mt-2 max-w-2xl text-sm text-slate-600">
+                Cadastre um projeto para acompanhar datas, despesas previstas e gastos realizados.
+            </p>
+        </section>
 
-    <input type="text" name="nome" placeholder="Nome"><br>
+        <section class="mx-auto max-w-2xl rounded-lg bg-white p-6 shadow-md">
+            {% if erro %}
+                <div class="mb-5 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700">
+                    {{ erro }}
+                </div>
+            {% endif %}
 
-    <input type="text" name="descricao" placeholder="Descrição"><br>
+            <form method="POST" class="space-y-5">
+                {% csrf_token %}
 
-    <input type="date" name="data_inicio"
-           min="1900-01-01" max="2100-12-31"><br>
+                <div>
+                    <label for="nome" class="mb-2 block text-sm font-semibold text-[#285E9E]">Nome</label>
+                    <input
+                        id="nome"
+                        type="text"
+                        name="nome"
+                        placeholder="Nome do projeto"
+                        class="w-full rounded-md border border-slate-200 bg-[#F2F0EF] px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#68A535] focus:ring-2 focus:ring-[#68A535]/20"
+                    >
+                </div>
 
-    <input type="date" name="data_fim"
-           min="1900-01-01" max="2100-12-31"><br>
+                <div>
+                    <label for="descricao" class="mb-2 block text-sm font-semibold text-[#285E9E]">Descrição</label>
+                    <input
+                        id="descricao"
+                        type="text"
+                        name="descricao"
+                        placeholder="Descrição do projeto"
+                        class="w-full rounded-md border border-slate-200 bg-[#F2F0EF] px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#68A535] focus:ring-2 focus:ring-[#68A535]/20"
+                    >
+                </div>
 
-    <button type="submit">Criar</button>
-</form>
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div>
+                        <label for="data_inicio" class="mb-2 block text-sm font-semibold text-[#285E9E]">Data de início</label>
+                        <input
+                            id="data_inicio"
+                            type="date"
+                            name="data_inicio"
+                            min="1900-01-01"
+                            max="2100-12-31"
+                            class="w-full rounded-md border border-slate-200 bg-[#F2F0EF] px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#68A535] focus:ring-2 focus:ring-[#68A535]/20"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="data_fim" class="mb-2 block text-sm font-semibold text-[#285E9E]">Data final</label>
+                        <input
+                            id="data_fim"
+                            type="date"
+                            name="data_fim"
+                            min="1900-01-01"
+                            max="2100-12-31"
+                            class="w-full rounded-md border border-slate-200 bg-[#F2F0EF] px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#68A535] focus:ring-2 focus:ring-[#68A535]/20"
+                        >
+                    </div>
+                </div>
+
+                <div class="flex flex-col-reverse gap-3 pt-2 sm:flex-row sm:justify-end">
+                    <a
+                        href="{% url 'dashboard' %}"
+                        class="inline-flex justify-center rounded-md border border-slate-300 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    >
+                        Cancelar
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="inline-flex justify-center rounded-md bg-[#68A535] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5ba51e]"
+                    >
+                        Criar
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

@@ -13,17 +13,20 @@
                 <h1 class="nome">+Controle</h1>
                 <h1 class="nome2">-Tempo</h1>
             </div>
+            {% if erro %}
+                <p class="user" style="color: #b91c1c; text-align: center;">{{ erro }}</p>
+            {% endif %}
             <form method="POST">
                 {% csrf_token %}
 
                 <p class="user" style="color: #285E9E;">Nome completo</p>
-                <input class="lemail" name="nome" placeholder="Digite seu nome completo..."><br>
+                <input class="lemail" name="nome" value="{{ dados.nome }}" placeholder="Digite seu nome completo..."><br>
 
                 <p class="user" style="color: #285E9E;">Email</p>
-                <input class="lemail" name="email" placeholder="Digite seu email..."><br>
+                <input class="lemail" name="email" value="{{ dados.email }}" placeholder="Digite seu email..."><br>
 
                 <p class="user" style="color: #285E9E;">Senha</p><div class="campo-senha">
-                <input class="lemail" name="senha" id="senha" type="password" placeholder="Digite sua senha...">
+                <input class="lemail" name="senha" id="senha" type="password" value="{{ dados.senha }}" placeholder="Digite sua senha...">
                 <button type="button" class="toggle-password" onclick="toggleSenha()">
                     <span id="icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -62,7 +65,16 @@
                 </script>
                 </div>
                 <p class="user" style="color: #285E9E;">CPF</p>
-                <input class="lemail" name="cpf" placeholder="Digite seu CPF..."><br>
+                <input
+                    class="lemail"
+                    name="cpf"
+                    inputmode="numeric"
+                    maxlength="11"
+                    pattern="[0-9]{11}"
+                    required
+                    value="{{ dados.cpf }}"
+                    placeholder="Digite seu CPF..."
+                ><br>
 
 
                 <button class="entrar" type="submit">Cadastrar</button>
@@ -85,24 +97,32 @@
         </div>
     </div>
 </div>
+<script src="{% static 'usuarios/site-modal.js' %}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     // Pega o formulário da página de cadastro
     const formCadastro = document.querySelector("form");
 
     if(formCadastro) {
+        const cpfInput = document.querySelector('input[name="cpf"]');
+
+        if (cpfInput) {
+            cpfInput.addEventListener("input", function() {
+                this.value = this.value.replace(/\D/g, "").slice(0, 11);
+            });
+        }
+
         formCadastro.addEventListener("submit", function(event) {
             // Pegando os campos do HTML
             const nomeInput = document.querySelector('input[name="nome"]');
             const emailInput = document.querySelector('input[name="email"]');
             const senhaInput = document.getElementById("senha");
-            const cpfInput = document.querySelector('input[name="cpf"]');
             
             // Pegando os valores digitados (e tirando espaços em branco nas pontas com trim)
             const nome = nomeInput ? nomeInput.value.trim() : "";
             const email = emailInput ? emailInput.value.trim() : "";
             const senha = senhaInput ? senhaInput.value.trim() : "";
-            const cpf = cpfInput ? cpfInput.value.trim() : "";
+            const cpf = cpfInput ? cpfInput.value.replace(/\D/g, "") : "";
             
             const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Fórmula para validar e-mail
             let mensagensErro = [];
@@ -126,17 +146,17 @@ document.addEventListener("DOMContentLoaded", function() {
                 mensagensErro.push("- A senha deve ter pelo menos 6 caracteres.");
             }
 
-            // 4. Validação de CPF (checa se tá vazio ou se tem menos de 11 digitos)
+            // 4. Validacao de CPF: deve ter exatamente 11 digitos
             if (!cpf) {
                 mensagensErro.push("- O campo de CPF é obrigatório.");
-            } else if (cpf.length < 11) {
-                mensagensErro.push("- Digite um CPF válido (mínimo de 11 números).");
+            } else if (cpf.length !== 11) {
+                mensagensErro.push("- Digite um CPF válido com exatamente 11 números.");
             }
 
             // Se houver erros, impede o envio e mostra o alerta
             if (mensagensErro.length > 0) {
                 event.preventDefault(); 
-                alert("Por favor, corrija os seguintes erros antes de cadastrar:\n\n" + mensagensErro.join("\n"));
+                siteAlert(mensagensErro.join("\n"), "Corrija os dados");
             }
         });
     }
