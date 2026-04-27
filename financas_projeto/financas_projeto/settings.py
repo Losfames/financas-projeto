@@ -11,6 +11,11 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ssl_ca = os.getenv('DB_SSL_CA')
+
+if ssl_ca:
+    with open('/tmp/ca.pem', 'w') as f:
+        f.write(ssl_ca)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -19,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-bdr6=0gfx7gv$duew!vniz@(_$gq9eurpt!=+tr*n1bldixqdk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,7 +85,7 @@ DATABASES = {
         'PORT': '21254',
         'OPTIONS': {
             'ssl': {
-                'ca': 'ca.pem'
+                'ca': '/tmp/ca.pem'
             }
         }
     }
