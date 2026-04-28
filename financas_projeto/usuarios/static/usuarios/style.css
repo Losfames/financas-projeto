@@ -1,12 +1,12 @@
 .login {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     font-family: Arial, sans-serif;
 }
 
 .layout {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .lado-direito {
@@ -123,9 +123,7 @@ a {
 }
 
 .campo-senha {
-    position: relative;.campo-senha input {
-    padding-right: 50px; /* mais espaço pro ícone */
-}
+    position: relative;
 }
 
 .campo-senha input {
@@ -156,4 +154,68 @@ a {
     width: 18px;
     height: 18px;
     display: block;
+}
+
+@media (max-width: 768px) {
+    .login {
+        background: #CECECE;
+    }
+
+    .layout {
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .lado-esquerdo {
+        flex: none;
+        min-height: 100vh;
+        padding: 24px 16px;
+        box-sizing: border-box;
+    }
+
+    .lado-direito {
+        display: none;
+    }
+
+    .quadrado {
+        width: min(100%, 360px);
+        padding: 24px 20px;
+        box-sizing: border-box;
+    }
+
+    .titulo-container {
+        margin-bottom: 22px;
+    }
+
+    .nome,
+    .nome2 {
+        font-size: 28px;
+    }
+
+    .entrar {
+        margin-top: 22px;
+    }
+}
+
+@media (max-width: 380px) {
+    .lado-esquerdo {
+        padding: 16px 12px;
+    }
+
+    .quadrado {
+        padding: 20px 16px;
+    }
+
+    .nome,
+    .nome2 {
+        font-size: 25px;
+    }
+
+    .lemail {
+        padding: 11px;
+    }
+
+    .campo-senha input {
+        padding-right: 42px;
+    }
 }
